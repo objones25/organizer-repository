@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct ContentView: View {
     @State private var selection = 0
@@ -43,64 +44,78 @@ struct ContentView_Previews: PreviewProvider {
 }
 
 struct CheckListVIew: View {
-    @State private var assignments = 14
-    @State private var subject = ""
-    @State private var dueDate = ""
-    @State private var assignmentType = ""
+    @State private var assignments = 2
+    @State private var subject = "NA"
+    @State private var dueDate = "NA"
+    @State private var assignmentType = "NA"
     var body: some View {
         ScrollView(.vertical) {
             VStack(spacing: 10){
                 ForEach(1..<assignments){
                     Text("Priority \($0)")
+                        .padding(10)
                     VStack {
                         VStack{
                             HStack{
                                 HStack {
                                     Text("Subject:")
-                                    TextField("NA", text: self.$subject)
+                                    Text(self.subject)
+                                        .opacity(0.5)
                                 }
                                 .lineLimit(1)
+                                .scaledToFit()
                                 .minimumScaleFactor(0.1)
+                                // subject box
+                                Spacer(minLength: 10)
                                 HStack {
                                     Text("Due Date:")
-                                    TextField("NA", text: self.$dueDate)
+                                    Text(self.dueDate)
+                                        .opacity(0.5)
+                                    
                                 }
                                 .lineLimit(1)
+                                .scaledToFit()
                                 .minimumScaleFactor(0.1)
+                                .padding(10)
+                                // due date box
                             }
                             .padding(10)
                             HStack{
                                 HStack{
                                     Text("Assignment Type:")
-                                    TextField("NA", text: self.$assignmentType)
+                                    Text(self.assignmentType)
+                                        .opacity(0.5)
+                                    //assignment type box
                                 }
                                 .lineLimit(1)
+                                .scaledToFit()
                                 .minimumScaleFactor(0.1)
-                                HStack{
+                                .padding(10)
+                                Spacer(minLength: 15)
+                                VStack{
                                     Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/) {
-                                        VStack{
-                                            Image(systemName: "pencil.and.ellipsis.rectangle")
-                                            Text("More Information")
-                                        }
-                                        
+                                        Image(systemName: "pencil.and.ellipsis.rectangle")
                                     }
+                                    .padding(5)
                                     Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/) {
-                                        VStack{
-                                            Image(systemName: "pencil.slash")
-                                            Text("Complete Assignment")
-                                        }
+                                        Image(systemName: "pencil.slash")
                                     }
+                                    .padding(.horizontal, 0.5)
                                 }
                                 .lineLimit(1)
+                                .scaledToFit()
                                 .minimumScaleFactor(0.1)
+                                .padding(10)
                             }
                         }
                     }
+                    Divider()
                 }
             }
             .background(Color.white)
             .cornerRadius(15)
             .padding(1)
+            
         }
         .frame(maxWidth: .infinity)
         .background(Color.black)
@@ -109,7 +124,38 @@ struct CheckListVIew: View {
 
 
 struct NewAssignmentView: View {
+    @State private var subject = ""
+    @State private var dueDate = Date()
+    @State private var assignmentType = 0
+    let types = ["essay", "worksheet", "reading", "study for test", "group project", "other"]
     var body: some View {
-        Text("")
+        NavigationView{
+            Form{
+                HStack(alignment: .center){
+                    Text("Subject:")
+                    TextField("NA", text: self.$subject)
+                }
+                
+                DatePicker(selection: $dueDate, label: { Text("Due Date:") })
+                
+                Picker(selection: $assignmentType, label: Text("Assignment Type:")) {
+                    ForEach(0 ..< types.count){ index in
+                        Text(self.types[index]).tag(index)
+                    }
+                }
+                
+                Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/) {
+                    HStack{
+                        Text("More Information")
+                        Image(systemName: "pencil.and.ellipsis.rectangle")
+                        
+                    }
+                }
+                Button(action: {}) {
+                    Text("Complete")
+                }
+            }
+        .navigationBarTitle(Text("New Assignment"))
+        }
     }
 }

@@ -14,6 +14,7 @@
 		B45495292447D6B500CAB9C0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B45495282447D6B500CAB9C0 /* Assets.xcassets */; };
 		B454952C2447D6B500CAB9C0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B454952B2447D6B500CAB9C0 /* Preview Assets.xcassets */; };
 		B454952F2447D6B500CAB9C0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B454952D2447D6B500CAB9C0 /* LaunchScreen.storyboard */; };
+		B48659A8244DF8C800A5E10C /* AssignmentStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48659A7244DF8C800A5E10C /* AssignmentStructure.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		B454952B2447D6B500CAB9C0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B454952E2447D6B500CAB9C0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B45495302447D6B500CAB9C0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B48659A7244DF8C800A5E10C /* AssignmentStructure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentStructure.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 				B454951F2447D6B300CAB9C0 /* AppDelegate.swift */,
 				B45495212447D6B300CAB9C0 /* SceneDelegate.swift */,
 				B45495262447D6B300CAB9C0 /* ContentView.swift */,
+				B48659A7244DF8C800A5E10C /* AssignmentStructure.swift */,
 				B45495282447D6B500CAB9C0 /* Assets.xcassets */,
 				B454952D2447D6B500CAB9C0 /* LaunchScreen.storyboard */,
 				B45495302447D6B500CAB9C0 /* Info.plist */,
@@ -150,6 +153,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B45495252447D6B300CAB9C0 /* homework_organizer.xcdatamodeld in Sources */,
+				B48659A8244DF8C800A5E10C /* AssignmentStructure.swift in Sources */,
 				B45495202447D6B300CAB9C0 /* AppDelegate.swift in Sources */,
 				B45495272447D6B300CAB9C0 /* ContentView.swift in Sources */,
 				B45495222447D6B300CAB9C0 /* SceneDelegate.swift in Sources */,
