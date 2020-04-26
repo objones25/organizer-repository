@@ -127,7 +127,14 @@ struct NewAssignmentView: View {
     @State private var subject = ""
     @State private var dueDate = Date()
     @State private var assignmentType = 0
+    @State private var assignmentWorth = 0
+    @State private var value = 0
     let types = ["essay", "worksheet", "reading", "study for test", "group project", "other"]
+    let points = ["minor assignment 5-10", "small assignment 15-25", "medium assignment 30-50", "large assignment 55-75", "major assignment 80-100" ]
+
+    
+    
+    
     var body: some View {
         NavigationView{
             Form{
@@ -143,7 +150,11 @@ struct NewAssignmentView: View {
                         Text(self.types[index]).tag(index)
                     }
                 }
-                
+                Picker(selection: $assignmentWorth, label: Text("Points Worth:")) {
+                                   ForEach(0 ..< points.count){ index in
+                                       Text(self.points[index]).tag(index)
+                                   }
+                               }
                 Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/) {
                     HStack{
                         Text("More Information")
@@ -151,7 +162,12 @@ struct NewAssignmentView: View {
                         
                     }
                 }
-                Button(action: {}) {
+                Button(action: {
+                    let formatter1 = DateFormatter()
+                    formatter1.dateStyle = .short
+
+                    let Assignment = AssignmentStructure.init(subject: self.subject, dueDate: formatter1.string(from: self.dueDate), assignmentType: self.types[self.assignmentType], pointsWorth: self.value )
+                }) {
                     Text("Complete")
                 }
             }
