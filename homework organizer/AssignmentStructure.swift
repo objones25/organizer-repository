@@ -13,11 +13,4 @@ struct AssignmentStructure {
     let date: String
     let type: String
     let points: Int
-    
-    init( subject: String, dueDate: String, assignmentType: String, pointsWorth: Int){
-        sbjct = subject
-        date = dueDate
-        type = assignmentType
-        points = pointsWorth
-    }
 }

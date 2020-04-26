@@ -16,7 +16,7 @@ struct ContentView: View {
     var body: some View {
         ZStack{
             TabView(selection: $selection){
-                CheckListVIew()
+                CheckListView()
                     .tabItem {
                         VStack {
                             Image(systemName: "calendar.circle")
@@ -43,11 +43,14 @@ struct ContentView_Previews: PreviewProvider {
     }
 }
 
-struct CheckListVIew: View {
+struct CheckListView: View {
+     @State var priority = []
     @State private var assignments = 2
     @State private var subject = "NA"
     @State private var dueDate = "NA"
     @State private var assignmentType = "NA"
+    
+    
     var body: some View {
         ScrollView(.vertical) {
             VStack(spacing: 10){
@@ -124,11 +127,14 @@ struct CheckListVIew: View {
 
 
 struct NewAssignmentView: View {
+    @State private var checklistView = CheckListView()
     @State private var subject = ""
     @State private var dueDate = Date()
     @State private var assignmentType = 0
     @State private var assignmentWorth = 0
     @State private var value = 0
+   
+
     let types = ["essay", "worksheet", "reading", "study for test", "group project", "other"]
     let points = ["minor assignment 5-10", "small assignment 15-25", "medium assignment 30-50", "large assignment 55-75", "major assignment 80-100" ]
 
@@ -137,6 +143,7 @@ struct NewAssignmentView: View {
     
     var body: some View {
         NavigationView{
+            
             Form{
                 HStack(alignment: .center){
                     Text("Subject:")
@@ -166,7 +173,24 @@ struct NewAssignmentView: View {
                     let formatter1 = DateFormatter()
                     formatter1.dateStyle = .short
 
-                    let Assignment = AssignmentStructure.init(subject: self.subject, dueDate: formatter1.string(from: self.dueDate), assignmentType: self.types[self.assignmentType], pointsWorth: self.value )
+                    switch self.assignmentWorth{
+                    case 0:
+                        self.value = 10
+                    case 1:
+                        self.value = 25
+                    case 2:
+                        self.value = 50
+                    case 3:
+                        self.value = 75
+                    case 4:
+                        self.value = 100
+                    default:
+                        print("error")
+                }
+                    
+                    let Assignment = AssignmentStructure.init(sbjct: self.subject, date: formatter1.string(from: self.dueDate), type: self.types[self.assignmentType], points: self.value )
+                    self.checklistView.priority.append(Assignment)
+                    print(self.checklistView.priority)
                 }) {
                     Text("Complete")
                 }
