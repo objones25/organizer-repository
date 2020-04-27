@@ -44,17 +44,17 @@ struct ContentView_Previews: PreviewProvider {
 }
 
 struct CheckListView: View {
-     @State var priority = []
-    @State private var assignments = 2
-    @State private var subject = "NA"
-    @State private var dueDate = "NA"
-    @State private var assignmentType = "NA"
+    @State private var newAssignmentView = NewAssignmentView()
+    
+    @State private var subject1 = "NA"
+    @State private var dueDate1 = "NA"
+    @State private var assignmentType1 = "NA"
     
     
     var body: some View {
         ScrollView(.vertical) {
             VStack(spacing: 10){
-                ForEach(1..<assignments){
+                ForEach(0..<self.newAssignmentView.assignments){
                     Text("Priority \($0)")
                         .padding(10)
                     VStack {
@@ -62,8 +62,9 @@ struct CheckListView: View {
                             HStack{
                                 HStack {
                                     Text("Subject:")
-                                    Text(self.subject)
+                                    Text(self.subject1)
                                         .opacity(0.5)
+// HStack with subject and response
                                 }
                                 .lineLimit(1)
                                 .scaledToFit()
@@ -72,9 +73,9 @@ struct CheckListView: View {
                                 Spacer(minLength: 10)
                                 HStack {
                                     Text("Due Date:")
-                                    Text(self.dueDate)
+                                    Text(self.dueDate1)
                                         .opacity(0.5)
-                                    
+// HStack with due date and response
                                 }
                                 .lineLimit(1)
                                 .scaledToFit()
@@ -86,7 +87,7 @@ struct CheckListView: View {
                             HStack{
                                 HStack{
                                     Text("Assignment Type:")
-                                    Text(self.assignmentType)
+                                    Text(self.assignmentType1)
                                         .opacity(0.5)
                                     //assignment type box
                                 }
@@ -127,17 +128,19 @@ struct CheckListView: View {
 
 
 struct NewAssignmentView: View {
-    @State private var checklistView = CheckListView()
+    @State var priority = []
+    // array of assignments
     @State private var subject = ""
     @State private var dueDate = Date()
     @State private var assignmentType = 0
     @State private var assignmentWorth = 0
     @State private var value = 0
-   
-
+    @State var assignments = 1
+    
     let types = ["essay", "worksheet", "reading", "study for test", "group project", "other"]
+    // selection of different assignment types
     let points = ["minor assignment 5-10", "small assignment 15-25", "medium assignment 30-50", "large assignment 55-75", "major assignment 80-100" ]
-
+    // selection of different points options
     
     
     
@@ -149,19 +152,24 @@ struct NewAssignmentView: View {
                     Text("Subject:")
                     TextField("NA", text: self.$subject)
                 }
+                //HStack with subject textfield
                 
                 DatePicker(selection: $dueDate, label: { Text("Due Date:") })
+                // Allows pick due date
                 
                 Picker(selection: $assignmentType, label: Text("Assignment Type:")) {
                     ForEach(0 ..< types.count){ index in
                         Text(self.types[index]).tag(index)
                     }
                 }
+                // pick assignment type
+                
                 Picker(selection: $assignmentWorth, label: Text("Points Worth:")) {
-                                   ForEach(0 ..< points.count){ index in
-                                       Text(self.points[index]).tag(index)
-                                   }
-                               }
+                    ForEach(0 ..< points.count){ index in
+                        Text(self.points[index]).tag(index)
+                    }
+                // pick points worth
+                }
                 Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/) {
                     HStack{
                         Text("More Information")
@@ -172,8 +180,8 @@ struct NewAssignmentView: View {
                 Button(action: {
                     let formatter1 = DateFormatter()
                     formatter1.dateStyle = .short
-
-                    switch self.assignmentWorth{
+                    // formats date
+                    switch self.assignmentWorth {
                     case 0:
                         self.value = 10
                     case 1:
@@ -186,16 +194,23 @@ struct NewAssignmentView: View {
                         self.value = 100
                     default:
                         print("error")
-                }
+                    }
+                    // converts chosen assignment point value to an an integer
                     
-                    let Assignment = AssignmentStructure.init(sbjct: self.subject, date: formatter1.string(from: self.dueDate), type: self.types[self.assignmentType], points: self.value )
-                    self.checklistView.priority.append(Assignment)
-                    print(self.checklistView.priority)
+                    let assignmentDict = ["sbjct": self.subject, "date": formatter1.string(from: self.dueDate), "type": self.types[self.assignmentType], "points": self.value] as [String : Any]
+                    print(assignmentDict)
+                    // creates a dictionary containing data imputted
+                    self.priority.append(assignmentDict)
+                   
+                    print(self.priority)
+                    
+                    self.assignments += 1
+                    // adds 1 to total # of assignments
                 }) {
                     Text("Complete")
                 }
             }
-        .navigationBarTitle(Text("New Assignment"))
+            .navigationBarTitle(Text("New Assignment"))
         }
     }
 }
