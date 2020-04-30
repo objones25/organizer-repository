@@ -54,13 +54,16 @@ struct CheckListView: View {
         @Published var assignments = 0
         @Published var priority: [String: VariableTracker] = [:]
     }
-
+    // Created an Observable Object
+    
     @ObservedObject var priorityTracker = PriorityTracker()
+    // And an Observed object variable
     
     var body: some View {
         ScrollView(.vertical) {
             VStack(spacing: 10){
                 ForEach(0..<self.priorityTracker.priority.count) {
+                    //I seem to be having  a lot of trouble with this. Can scroll views not upadate?
                     Text("Priority \($0)")
                         .padding(10)
                     VStack {
@@ -70,7 +73,7 @@ struct CheckListView: View {
                                     Text("Subject:")
                                     Text(self.priorityTracker.priority["assignment\(self.priorityTracker.assignments)"]!.sbjct)
                                         .opacity(0.5)
-// HStack with subject and response
+                                    // HStack with subject and response
                                 }
                                 .lineLimit(1)
                                 .scaledToFit()
@@ -81,7 +84,7 @@ struct CheckListView: View {
                                     Text("Due Date:")
                                     Text(self.priorityTracker.priority["assignment"]!.date)
                                         .opacity(0.5)
-// HStack with due date and response
+                                    // HStack with due date and response
                                 }
                                 .lineLimit(1)
                                 .scaledToFit()
@@ -177,7 +180,7 @@ struct NewAssignmentView: View {
                     ForEach(0 ..< points.count){ index in
                         Text(self.points[index]).tag(index)
                     }
-                // pick points worth
+                    // pick points worth
                 }
                 Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/) {
                     HStack{
@@ -210,7 +213,7 @@ struct NewAssignmentView: View {
                     print(assignment)
                     // creates a dictionary containing data imputted
                     self.checklistView.priorityTracker.priority.updateValue(assignment, forKey: "assignment\(self.checklistView.priorityTracker.assignments)")
-                   
+                    
                     print(self.checklistView.priorityTracker.priority)
                     
                     self.checklistView.priorityTracker.assignments += 1
