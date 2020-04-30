@@ -44,17 +44,23 @@ struct ContentView_Previews: PreviewProvider {
 }
 
 struct CheckListView: View {
-    @State private var newAssignmentView = NewAssignmentView()
+    
     
     @State private var subject1 = "NA"
     @State private var dueDate1 = "NA"
     @State private var assignmentType1 = "NA"
     
+    class PriorityTracker: ObservableObject {
+        @Published var assignments = 0
+        @Published var priority: [String: VariableTracker] = [:]
+    }
+
+    @State var priorityTracker = PriorityTracker()
     
     var body: some View {
         ScrollView(.vertical) {
             VStack(spacing: 10){
-                ForEach(0..<self.newAssignmentView.assignments){
+                ForEach(0..<self.priorityTracker.priority.count) {
                     Text("Priority \($0)")
                         .padding(10)
                     VStack {
@@ -62,7 +68,7 @@ struct CheckListView: View {
                             HStack{
                                 HStack {
                                     Text("Subject:")
-                                    Text(self.subject1)
+                                    Text(self.priorityTracker.priority["assignment\(self.priorityTracker.assignments)"]!.sbjct)
                                         .opacity(0.5)
 // HStack with subject and response
                                 }
@@ -73,7 +79,7 @@ struct CheckListView: View {
                                 Spacer(minLength: 10)
                                 HStack {
                                     Text("Due Date:")
-                                    Text(self.dueDate1)
+                                    Text(self.priorityTracker.priority["assignment"]!.date)
                                         .opacity(0.5)
 // HStack with due date and response
                                 }
@@ -87,7 +93,7 @@ struct CheckListView: View {
                             HStack{
                                 HStack{
                                     Text("Assignment Type:")
-                                    Text(self.assignmentType1)
+                                    Text(self.priorityTracker.priority["assignment"]!.type)
                                         .opacity(0.5)
                                     //assignment type box
                                 }
@@ -128,14 +134,17 @@ struct CheckListView: View {
 
 
 struct NewAssignmentView: View {
-    @State var priority = []
+    @State var checklistView = CheckListView()
+    
+    
+    
     // array of assignments
     @State private var subject = ""
     @State private var dueDate = Date()
     @State private var assignmentType = 0
     @State private var assignmentWorth = 0
     @State private var value = 0
-    @State var assignments = 1
+    
     
     let types = ["essay", "worksheet", "reading", "study for test", "group project", "other"]
     // selection of different assignment types
@@ -197,14 +206,14 @@ struct NewAssignmentView: View {
                     }
                     // converts chosen assignment point value to an an integer
                     
-                    let assignmentDict = ["sbjct": self.subject, "date": formatter1.string(from: self.dueDate), "type": self.types[self.assignmentType], "points": self.value] as [String : Any]
-                    print(assignmentDict)
+                    let assignment = VariableTracker(sbjct: self.subject, date: formatter1.string(from: self.dueDate), type: self.types[self.assignmentType], value: self.value)
+                    print(assignment)
                     // creates a dictionary containing data imputted
-                    self.priority.append(assignmentDict)
+                    self.checklistView.priorityTracker.priority.updateValue(assignment, forKey: "assignment\(self.checklistView.priorityTracker.assignments)")
                    
-                    print(self.priority)
+                    print(self.checklistView.priorityTracker.priority)
                     
-                    self.assignments += 1
+                    self.checklistView.priorityTracker.assignments += 1
                     // adds 1 to total # of assignments
                 }) {
                     Text("Complete")
