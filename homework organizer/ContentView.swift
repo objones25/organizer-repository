@@ -45,11 +45,6 @@ struct ContentView_Previews: PreviewProvider {
 
 struct CheckListView: View {
     
-    
-    @State private var subject1 = "NA"
-    @State private var dueDate1 = "NA"
-    @State private var assignmentType1 = "NA"
-    
     class PriorityTracker: ObservableObject {
         @Published var assignments = 0
         @Published var priority: [String: VariableTracker] = [:]
@@ -62,16 +57,16 @@ struct CheckListView: View {
     var body: some View {
         ScrollView(.vertical) {
             VStack(spacing: 10){
-                ForEach(0..<self.priorityTracker.priority.count) {
+                ForEach(0..<self.priorityTracker.priority.count) { item in
                     //I seem to be having  a lot of trouble with this. Can scroll views not upadate?
-                    Text("Priority \($0)")
+                    Text("Priority \(item)")
                         .padding(10)
                     VStack {
                         VStack{
                             HStack{
                                 HStack {
                                     Text("Subject:")
-                                    Text(self.priorityTracker.priority["assignment\(self.priorityTracker.assignments)"]!.sbjct)
+                                    Text(self.priorityTracker.priority["assignment\(item)"]!.sbjct)
                                         .opacity(0.5)
                                     // HStack with subject and response
                                 }
@@ -82,7 +77,7 @@ struct CheckListView: View {
                                 Spacer(minLength: 10)
                                 HStack {
                                     Text("Due Date:")
-                                    Text(self.priorityTracker.priority["assignment"]!.date)
+                                    Text(self.priorityTracker.priority["assignment\(item)"]!.date)
                                         .opacity(0.5)
                                     // HStack with due date and response
                                 }
@@ -96,7 +91,7 @@ struct CheckListView: View {
                             HStack{
                                 HStack{
                                     Text("Assignment Type:")
-                                    Text(self.priorityTracker.priority["assignment"]!.type)
+                                    Text(self.priorityTracker.priority["assignment\(item)"]!.type)
                                         .opacity(0.5)
                                     //assignment type box
                                 }
@@ -217,6 +212,7 @@ struct NewAssignmentView: View {
                     print(self.checklistView.priorityTracker.priority)
                     
                     self.checklistView.priorityTracker.assignments += 1
+                    print(self.checklistView.priorityTracker.assignments)
                     // adds 1 to total # of assignments
                 }) {
                     Text("Complete")
