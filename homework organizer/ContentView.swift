@@ -55,7 +55,7 @@ struct CheckListView: View {
         @Published var priority: [String: VariableTracker] = [:]
     }
 
-    @State var priorityTracker = PriorityTracker()
+    @ObservedObject var priorityTracker = PriorityTracker()
     
     var body: some View {
         ScrollView(.vertical) {
